@@ -1,0 +1,1 @@
+avg(last_5m):avg:system.load.norm.15{*} > ${critical}

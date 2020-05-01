@@ -1,0 +1,1 @@
+avg(last_5m):avg:system.mem.used{*} / ( avg:system.mem.total{*} / 100 ) > ${critical}

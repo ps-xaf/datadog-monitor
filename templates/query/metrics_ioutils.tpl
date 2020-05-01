@@ -1,0 +1,1 @@
+avg(last_5m):avg:system.io.util{device:sda} > ${critical}

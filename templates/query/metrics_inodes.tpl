@@ -1,0 +1,1 @@
+avg(last_5m):avg:system.fs.inodes.used{device:/dev/md1} / ( avg:system.fs.inodes.total{device:/dev/md1} / 100 ) > ${critical}
