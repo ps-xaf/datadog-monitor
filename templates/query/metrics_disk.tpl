@@ -1,1 +1,1 @@
-avg(last_5m):avg:system.disk.used{device:/dev/md1} / ( avg:system.disk.total{device:/dev/md1} / 100 ) > ${critical}
+avg(last_5m):avg:system.disk.used{*} by {host} / ( avg:system.disk.total{*} by {host} / 100 ) > ${critical}

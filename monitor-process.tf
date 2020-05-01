@@ -20,6 +20,6 @@ resource "datadog_monitor" "process_check" {
   renotify_interval = 0
   no_data_timeframe = 15
 
-  tags = [format("monitor_metrics:%s", replace(lower(each.key), " ", "_", ))]
+  tags = [format("monitor_process:%s", replace(lower(each.key), " ", "_", ))]
 }
 

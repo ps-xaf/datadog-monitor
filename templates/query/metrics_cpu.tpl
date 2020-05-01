@@ -1,1 +1,1 @@
-avg(last_5m):avg:system.cpu.user{*} + avg:system.cpu.system{*} + avg:system.cpu.guest{*} > ${critical}
+avg(last_5m):avg:system.cpu.user{*} by {host} + avg:system.cpu.system{*} by {host}+ avg:system.cpu.guest{*} by {host}> ${critical}

@@ -1,1 +1,1 @@
-avg(last_5m):avg:system.io.util{device:sda} > ${critical}
+avg(last_5m):avg:system.io.util{*} by {host} > ${critical}

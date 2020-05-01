@@ -1,1 +1,1 @@
-avg(last_5m):avg:system.load.norm.1{*} > ${critical}
+avg(last_5m):avg:system.load.norm.1{*} by {host} > ${critical}
