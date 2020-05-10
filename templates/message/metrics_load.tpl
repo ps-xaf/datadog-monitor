@@ -1,9 +1,9 @@
 {{#is_alert}}
-${metrics} is above ${critical} on {{host.name_tag}} {{host.ip}} 
+${name} is above ${critical} on {{host.name_tag}} {{host.ip}}
 ${recipient}
 {{/is_alert}}
 
-{{#is_recovery}}
-${metrics} recovered and dropped below ${critical} on {{host.name_tag}} {{host.ip}} 
+{{#is_alert_recovery}}
+${name} recovered and dropped below ${critical} on {{host.name_tag}} {{host.ip}}
 ${recipient}
-{{/is_recovery}}
+{{/is_alert_recovery}}

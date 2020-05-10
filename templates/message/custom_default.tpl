@@ -1,12 +1,12 @@
 {{#is_alert}}
-${custom_name} breached a threshold on {{host.name_tag}} {{host.ip}}
+${name} breached a critical threshold on {{host.name_tag}} {{host.ip}}
 Login to the machine and check if process is up
 Restart process if not running e.g.
-<pre><code>systemctl restart ${custom_name}</code></pre> 
+<pre><code>systemctl restart ${name}</code></pre>
 ${recipient}
 {{/is_alert}}
 
-{{#is_recovery}}
-${custom_name} process recovered on {{host.name_tag}} {{host.ip}} 
+{{#is_alert_recovery}}
+${name} process recovered on {{host.name_tag}} {{host.ip}}
 ${recipient}
-{{/is_recovery}}
+{{/is_alert_recovery}}
