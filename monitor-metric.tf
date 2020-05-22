@@ -1,13 +1,13 @@
-resource "datadog_monitor" "custom_check" {
-  for_each = var.monitor_custom
+resource "datadog_monitor" "metric_alert" {
+  for_each = merge(var.monitor_metrics)
 
-  name = format("Custom %s", each.key)
-  type = "service check"
+  name = format("Metric %s", each.key)
+  type = "metric alert"
 
   query = templatefile(
-    fileexists("${path.root}/${var.path_templates}/query/custom_${each.value[0]}.tpl")
-    ? "${path.root}/${var.path_templates}/query/custom_${each.value[0]}.tpl"
-    : "${path.module}/templates/query/custom_${each.value[0]}.tpl",
+    fileexists("${path.root}/${var.path_templates}/query/metrics_${each.value[0]}.tpl")
+    ? "${path.root}/${var.path_templates}/query/metrics_${each.value[0]}.tpl"
+    : "${path.module}/templates/query/metrics_${each.value[0]}.tpl",
     {
       name      = each.key,
       critical  = each.value[2],
@@ -17,9 +17,9 @@ resource "datadog_monitor" "custom_check" {
   )
 
   message = templatefile(
-    fileexists("${path.root}/${var.path_templates}/message/custom_${each.value[1]}.tpl")
-    ? "${path.root}/${var.path_templates}/message/custom_${each.value[1]}.tpl"
-    : "${path.module}/templates/message/custom_${each.value[1]}.tpl",
+    fileexists("${path.root}/${var.path_templates}/message/metrics_${each.value[1]}.tpl")
+    ? "${path.root}/${var.path_templates}/message/metrics_${each.value[1]}.tpl"
+    : "${path.module}/templates/message/metrics_${each.value[1]}.tpl",
     {
       name      = each.key,
       critical  = each.value[2],
@@ -41,5 +41,5 @@ resource "datadog_monitor" "custom_check" {
   renotify_interval = 0
   no_data_timeframe = 15
 
-  tags = concat([format("monitor_custom:%s", replace(lower(each.key), " ", "_", ))])
+  tags = concat([format("monitor_metric:%s", replace(lower(each.key), " ", "_", ))])
 }

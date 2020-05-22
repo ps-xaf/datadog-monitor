@@ -1,10 +1,31 @@
 resource "datadog_monitor" "process_check" {
   for_each = var.monitor_processes
 
-  name    = format("Process Monitor: %s", each.key)
-  type    = "service check"
-  query   = templatefile("${path.module}/templates/query/process_${each.value[0]}.tpl", { process_name = each.key, critical = each.value[1], recipient = var.notification_recipient })
-  message = templatefile("${path.module}/templates/message/process_${each.value[1]}.tpl", { process_name = each.key, critical = each.value[1], recipient = var.notification_recipient })
+  name = format("Process %s", each.key)
+  type = "service check"
+
+  query = templatefile(
+    fileexists("${path.root}/${var.path_templates}/query/process_${each.value[0]}.tpl")
+    ? "${path.root}/${var.path_templates}/query/process_${each.value[0]}.tpl"
+    : "${path.module}/templates/query/process_${each.value[0]}.tpl",
+    {
+      name      = each.key,
+      critical  = each.value[2],
+      recipient = var.notification_recipient,
+      from      = length(each.value[4]) == 0 ? "*" : join(", ", [for s in split(",", each.value[4]) : format("%q", s)])
+    }
+  )
+
+  message = templatefile(
+    fileexists("${path.root}/${var.path_templates}/message/process_${each.value[1]}.tpl")
+    ? "${path.root}/${var.path_templates}/message/process_${each.value[1]}.tpl"
+    : "${path.module}/templates/message/process_${each.value[1]}.tpl",
+    {
+      name      = each.key,
+      critical  = each.value[2],
+      recipient = var.notification_recipient
+    }
+  )
 
   thresholds = {
     critical = each.value[2]
@@ -20,6 +41,6 @@ resource "datadog_monitor" "process_check" {
   renotify_interval = 0
   no_data_timeframe = 15
 
-  tags = [format("monitor_process:%s", replace(lower(each.key), " ", "_", ))]
+  tags = concat([format("monitor_process:%s", replace(lower(each.key), " ", "_", ))])
 }
 
