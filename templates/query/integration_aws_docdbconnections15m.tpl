@@ -1,0 +1,1 @@
+avg(last_15m):avg:aws.docdb.database_connections{${from}} by {dbclusteridentifier} > ${critical}

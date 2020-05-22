@@ -1,0 +1,1 @@
+avg(last_15m):avg:aws.ec2.cpuutilization{${from}} by {host} > ${critical}

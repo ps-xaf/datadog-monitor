@@ -1,0 +1,1 @@
+max(next_12h):forecast(avg:system.disk.in_use{${from}} by {host}, 'linear', 1, interval='30m', history='1d', model='default') >= ${critical}

@@ -1,0 +1,1 @@
+avg(last_5m):avg:aws.vpn.tunnel_state{${from}} by {vpnid} < ${critical}

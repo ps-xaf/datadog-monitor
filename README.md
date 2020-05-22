@@ -4,30 +4,21 @@
 ## Summary
 
 Using templates for certain monitors has the advantage they are easy to extend and to modify. 
-Whereas keeping them in terraform it would require to add  additional parameters, extend the corresponding map variable and adjust parameters for templatefile functions  
+Whereas keeping them in terraform it would require to add additional parameters, extend the corresponding map variable and adjust parameters for templatefile functions  
 
 
 ## TODO:
-- make it more a module, than standalone
-- change templating to be sourceable outside of this module
 - dashboards
 - integrations
 - tagging enhancements
-- parameterized notification target 
 - network checks
-- disk checks not being hardcoded
 - ...
 
 
 ## Usage:
 See also https://www.terraform.io/docs/providers/datadog/index.html
 
-```
-export DATADOG_API_KEY="<YOUR API KEY>"
-export DATADOG_APP_KEY="<YOUR APP KEY>"
-export DATADOG_HOST="API URL"
-```
-
+Set the required Datadog variables:
 
 ```
 module "datadog_monitor" {
@@ -43,13 +34,13 @@ module "datadog_monitor" {
     "NTP clock drift" = ["ntp", "default", "2", "1"]
   }
 
+  # "METRICS_NAME"  = ["query_tpl_file_to_use", "msg_tpl_file_to_use", "CRITICAL", "WARNING", "from_tags_in_query"]
   monitor_processes = {
-    #  "METRICS_NAME"  = ["query_tpl_file_to_use","msg_tpl_file_to_use", "CRITICAL", "WARNING"]
-    "sshd"    = ["default", "default", "1", "1"]
-    "apache2" = ["default", "default", "1", "1"]
-    "mysql"   = ["default", "default", "1", "1"]
-    "php-fpm" = ["default", "default", "1", "1"]
-    "dovecot" = ["default", "default", "1", "1"]
+    "sshd"    = ["default", "default", "1", "1", ""]
+    "apache2" = ["default", "default", "1", "1", ""]
+    "mysql"   = ["default", "default", "1", "1", ""]
+    "php-fpm" = ["default", "default", "1", "1", ""]
+    "dovecot" = ["default", "default", "1", "1", "process:dovecot,role:mail,profile:dovecot"]
   }
 }
 ```

@@ -1,0 +1,1 @@
+avg(last_1h):avg:aws.rds.cpuutilization{${from}} by {name} > ${critical}

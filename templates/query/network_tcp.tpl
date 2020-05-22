@@ -1,0 +1,1 @@
+"tcp.can_connect".over("*").by("host","instance","port","target_host").last(${critical}).count_by_status()

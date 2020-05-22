@@ -1,0 +1,1 @@
+avg(last_15m):avg:aws.docdb.cpuutilization{${from}} by {dbclusteridentifier}.as_rate() >= ${critical}

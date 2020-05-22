@@ -1,1 +1,1 @@
-"process.up".over("process:${process_name}").by("host","process").last(2).count_by_status()
+"process.up".over("process:${name}").by("host","process").last(2).count_by_status()

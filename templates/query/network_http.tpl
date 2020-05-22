@@ -1,0 +1,1 @@
+"http.can_connect".over("*").by("host","instance","url").last(${critical}).count_by_status()

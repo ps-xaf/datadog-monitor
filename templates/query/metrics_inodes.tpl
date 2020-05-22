@@ -1,1 +1,1 @@
-avg(last_5m):avg:system.fs.inodes.used{*} by {host} / ( avg:system.fs.inodes.total{*} by {host} / 100 ) > ${critical}
+avg(last_5m):avg:system.fs.inodes.used{${from}} by {host} / ( avg:system.fs.inodes.total{${from}} by {host} / 100 ) > ${critical}

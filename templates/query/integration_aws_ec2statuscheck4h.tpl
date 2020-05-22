@@ -1,0 +1,1 @@
+avg(last_4h):avg:aws.ec2.status_check_failed{${from}} by {host} > ${critical}

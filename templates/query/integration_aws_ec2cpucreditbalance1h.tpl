@@ -1,0 +1,1 @@
+avg(last_1h):avg:aws.ec2.cpucredit_balance{${from}} by {host} < ${critical}

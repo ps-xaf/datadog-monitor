@@ -1,0 +1,1 @@
+sum(last_1h):avg:system.net.tcp6.established{${from}} by {host} + avg:system.net.tcp4.established{${from}} by {host} < ${critical}
