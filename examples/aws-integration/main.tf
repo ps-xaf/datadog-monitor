@@ -7,13 +7,32 @@ module "monitor" {
 
   notification_recipient = "@datadog"
 
-  # See also https://docs.datadoghq.com/integrations/amazon_web_services/
+  # See also https://docs.datadoghq.com/integrations/amazon_web_services/ for role setup on destination accounts
   aws_accounts = {
-    "<YOUR AWS ACCOUNTID>" = ["<ACCOUNT NAME>"]
+    "<YOUR AWS ACCOUNTID>" = {
+      name = "<ACCOUNT NAME>"
+    }
   }
 
-  monitor_custom = {
-    "NTP clock drift" = ["ntp", "default", "2", "1", ""]
+  monitor_integration = {
+    "EC2 Status check" = {
+      query_tpl = "aws_ec2statuscheck4h",
+      msg_tpl   = "default",
+      critical  = "2",
+      warning   = "1"
+    },
+    "EC2 CPU utilization" = {
+      query_tpl = "aws_ec2cpu15m",
+      msg_tpl   = "default",
+      critical  = "90",
+      warning   = "80"
+    },
+    "EC2 CPU credit balance" = {
+      query_tpl = "aws_ec2cpucreditbalance1h",
+      msg_tpl   = "default",
+      critical  = "8",
+      warning   = "16"
+    }
   }
 
   aws_service_namespaces = {

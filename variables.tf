@@ -21,7 +21,11 @@ variable "notification_recipient" {
 variable "aws_accounts" {
   description = "List of AWS account to activate the DataDog integration"
   type        = map
-  default     = {}
+  default = {
+    # "<AccountID>" = {
+    #   name = "<account name>"
+    # }
+  }
 }
 
 variable "path_templates" {
@@ -36,21 +40,59 @@ variable "monitor_processes" {
   default     = {}
 }
 
-
 # Some predefined base check like CPU, mem, using the DD agent and should be deployed across all hosts out of the box.
 variable "monitor_metrics" {
   description = "A list of base metrics."
   type        = map
   default = {
-    # "METRICS_NAME"  = ["query_tpl_file_to_use","msg_tpl_file_to_use", "CRITICAL", "WARNING"]
-    "CPU utilization (%)" = ["cpu", "default", "90", "80", ""] # CPU utilization of more than 90% triggers a critical, 80% a warning
-    "Memory used (%)"     = ["mem", "default", "90", "80", ""] # Memory utilization of more than 90% triggers a critical, 80% a warning
-    "Disk used (%)"       = ["disk", "default", "90", "80", ""]
-    "Inodes used (%)"     = ["inodes", "default", "90", "80", ""]
-    "IO utilization (%)"  = ["ioutils", "default", "90", "80", ""]
-    "Load 1min"           = ["load1m", "load", "2.0", "1.75", ""]
-    "Load 5min"           = ["load5m", "load", "1.75", "1.50", ""]
-    "Load 15min"          = ["load15m", "load", "1.50", "1.25", ""]
+    "CPU utilization (%)" = {
+      query_tpl = "cpu",
+      msg_tpl   = "default",
+      critical  = "90",
+      warning   = "80"
+    },
+    "Memory used (%)" = {
+      query_tpl = "mem",
+      msg_tpl   = "default",
+      critical  = "90",
+      warning   = "80"
+    },
+    "Disk used (%)" = {
+      query_tpl = "disk",
+      msg_tpl   = "default",
+      critical  = "90",
+      warning   = "80"
+    },
+    "Inodes used (%)" = {
+      query_tpl = "inodes",
+      msg_tpl   = "default",
+      critical  = "90",
+      warning   = "80"
+    },
+    "IO utilization (%)" = {
+      query_tpl = "ioutils",
+      msg_tpl   = "default",
+      critical  = "90",
+      warning   = "80"
+    },
+    "Load 1min" = {
+      query_tpl = "load1m",
+      msg_tpl   = "load",
+      critical  = "2.0",
+      warning   = "1.75"
+    },
+    "Load 5min" = {
+      query_tpl = "load5m",
+      msg_tpl   = "load",
+      critical  = "1.75",
+      warning   = "1.50"
+    },
+    "Load 15min" = {
+      query_tpl = "load15m",
+      msg_tpl   = "load",
+      critical  = "1.50",
+      warning   = "1.25"
+    }
   }
 }
 

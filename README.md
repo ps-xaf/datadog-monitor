@@ -31,16 +31,63 @@ module "datadog_monitor" {
   notification_recipient = "@dd-contact"
 
   monitor_custom = {
-    "NTP clock drift" = ["ntp", "default", "2", "1"]
+    "NTP clock drift" = {
+      query_tpl = "ntp",
+      msg_tpl   = "default",
+      critical  = "2",
+      warning   = "1"
+    }
   }
 
-  # "METRICS_NAME"  = ["query_tpl_file_to_use", "msg_tpl_file_to_use", "CRITICAL", "WARNING", "from_tags_in_query"]
   monitor_processes = {
-    "sshd"    = ["default", "default", "1", "1", ""]
-    "apache2" = ["default", "default", "1", "1", ""]
-    "mysql"   = ["default", "default", "1", "1", ""]
-    "php-fpm" = ["default", "default", "1", "1", ""]
-    "dovecot" = ["default", "default", "1", "1", "process:dovecot,role:mail,profile:dovecot"]
+    "CPU utilization (%)" = {
+      query_tpl = "cpu",
+      msg_tpl   = "default",
+      critical  = "90",
+      warning   = "80"
+    },
+    "Memory used (%)" = {
+      query_tpl = "mem",
+      msg_tpl   = "default",
+      critical  = "90",
+      warning   = "80"
+    },
+    "Disk used (%)" = {
+      query_tpl = "disk",
+      msg_tpl   = "default",
+      critical  = "90",
+      warning   = "80"
+    },
+    "Inodes used (%)" = {
+      query_tpl = "inodes",
+      msg_tpl   = "default",
+      critical  = "90",
+      warning   = "80"
+    },
+    "IO utilization (%)" = {
+      query_tpl = "ioutils",
+      msg_tpl   = "default",
+      critical  = "90",
+      warning   = "80"
+    },
+    "Load 1min" = {
+      query_tpl = "load1m",
+      msg_tpl   = "load",
+      critical  = "2.0",
+      warning   = "1.75"
+    },
+    "Load 5min" = {
+      query_tpl = "load5m",
+      msg_tpl   = "load",
+      critical  = "1.75",
+      warning   = "1.50"
+    },
+    "Load 15min" = {
+      query_tpl = "load15m",
+      msg_tpl   = "load",
+      critical  = "1.50",
+      warning   = "1.25"
+    }
   }
 }
 ```

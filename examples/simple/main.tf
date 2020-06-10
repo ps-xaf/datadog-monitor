@@ -8,6 +8,11 @@ module "monitor" {
   notification_recipient = "@datadog"
 
   monitor_custom = {
-    "NTP clock drift" = ["ntp", "default", "2", "1", ""]
+    "NTP clock drift" = {
+      query_tpl = "ntp",
+      msg_tpl   = "default",
+      critical  = "2",
+      warning   = "1"
+    }
   }
 }
