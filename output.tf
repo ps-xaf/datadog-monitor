@@ -4,3 +4,11 @@ output "aws_external_id" {
     account.account_id => account.external_id
   }
 }
+
+output "custom" {
+  value = module.monitors.custom_check
+}
+
+output "metric" {
+  value = module.monitors.metric_alert
+}

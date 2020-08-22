@@ -41,56 +41,85 @@ module "datadog_monitor" {
 
   monitor_processes = {
     "CPU utilization (%)" = {
-      query_tpl = "cpu",
-      msg_tpl   = "default",
-      critical  = "90",
-      warning   = "80"
+      query    = "avg(last_5m):avg:system.cpu.user{*} by {host} + avg:system.cpu.guest{*} by {host} + avg:system.cpu.system{*} by {host} > 90"
+      msg_tpl  = "default",
+      critical = "90",
+      warning  = "80"
     },
     "Memory used (%)" = {
-      query_tpl = "mem",
-      msg_tpl   = "default",
-      critical  = "90",
-      warning   = "80"
+      query    = "avg(last_5m):avg:system.mem.usable{*} by {host} / avg:system.mem.total{*} by {host} * 100  > 90"
+      msg_tpl  = "default",
+      critical = "90",
+      warning  = "80"
     },
     "Disk used (%)" = {
+      query     = "avg(last_5m):avg:system.disk.in_use{*} by {host} >= 90"
       query_tpl = "disk",
       msg_tpl   = "default",
       critical  = "90",
       warning   = "80"
     },
     "Inodes used (%)" = {
-      query_tpl = "inodes",
-      msg_tpl   = "default",
-      critical  = "90",
-      warning   = "80"
+      query    = "avg(last_5m):avg:system.fs.inodes.used{*} by {host} / ( avg:system.fs.inodes.total{*} by {host} / 100 ) > 90"
+      msg_tpl  = "default",
+      critical = "90",
+      warning  = "80"
     },
     "IO utilization (%)" = {
-      query_tpl = "ioutils",
-      msg_tpl   = "default",
-      critical  = "90",
-      warning   = "80"
+      query    = "avg(last_5m):avg:system.io.util{*} by {host} > 90"
+      msg_tpl  = "default",
+      critical = "90",
+      warning  = "80"
     },
     "Load 1min" = {
-      query_tpl = "load1m",
-      msg_tpl   = "load",
-      critical  = "2.0",
-      warning   = "1.75"
+      query    = "avg(last_5m):avg:system.load.norm.1{*} by {host} > 2.0"
+      msg_tpl  = "load",
+      critical = "2.0",
+      warning  = "1.75"
     },
     "Load 5min" = {
-      query_tpl = "load5m",
-      msg_tpl   = "load",
-      critical  = "1.75",
-      warning   = "1.50"
+      query    = "avg(last_5m):avg:system.load.norm.5{*} by {host} > 1.75"
+      msg_tpl  = "load",
+      critical = "1.75",
+      warning  = "1.50"
     },
     "Load 15min" = {
-      query_tpl = "load15m",
-      msg_tpl   = "load",
-      critical  = "1.50",
-      warning   = "1.25"
+      query    = "avg(last_5m):avg:system.load.norm.15{*} by {host} > 1.50"
+      msg_tpl  = "load",
+      critical = "1.50",
+      warning  = "1.25"
     }
   }
 }
 ```
+
+
+## Monitors
+
+Datadog provides different monitor types depending on the service, use case and integration. 
+
+### Process
+
+To verify if a certain process is running e.g. httpd, ssh, tomcat, 
+Needs to be configured also on DD agent 
+
+### Metrics
+
+To gather usage data about cpu, memory, disk, etc.
+
+### Custom
+
+### Forecast
+
+To predict metric usage   
+
+### Integration
+
+To collect data from ressources / services. e.g. GCP, Azure, AWS ressources  
+
+### Network
+
+To monitor  regular checks from a DD agent to a destination set on agent side.
 
 ## Tags
 

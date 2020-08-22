@@ -4,22 +4,24 @@ resource "datadog_monitor" "integration" {
   name = format("Integration %s", each.key)
   type = "query alert"
 
-  query = templatefile(
-    fileexists("${path.root}/${var.path_templates}/query/integration_${lookup(each.value, "query_tpl", "default")}.tpl")
-    ? "${path.root}/${var.path_templates}}/query/integration_${lookup(each.value, "query_tpl", "default")}.tpl"
-    : "${path.module}/templates/query/integration_${each.value[0]}.tpl",
-    {
-      name      = each.key,
-      critical  = lookup(each.value, "critical", "default"),
-      recipient = var.notification_recipient,
-      from      = lookup(each.value, "query_from", "default")
-    }
+  query = coalesce(
+    lookup(each.value, "query", ""), templatefile(
+      fileexists("${path.root}/${var.path_templates}/query/integration_${lookup(each.value, "query_tpl", "default")}.tpl")
+      ? "${path.root}/${var.path_templates}}/query/integration_${lookup(each.value, "query_tpl", "default")}.tpl"
+      : "${path.module}/../templates/query/integration_${lookup(each.value, "query_tpl", "default")}.tpl",
+      {
+        name      = each.key,
+        critical  = lookup(each.value, "critical", "default"),
+        recipient = var.notification_recipient,
+        from      = lookup(each.value, "query_from", "default")
+      }
+    )
   )
 
   message = templatefile(
     fileexists("${path.root}/${var.path_templates}/message/integration_${lookup(each.value, "msg_tpl", "default")}.tpl")
     ? "${path.root}/${var.path_templates}/message/integration_${lookup(each.value, "msg_tpl", "default")}.tpl"
-    : "${path.module}/templates/message/integration_${lookup(each.value, "msg_tpl", "default")}.tpl",
+    : "${path.module}/../templates/message/integration_${lookup(each.value, "msg_tpl", "default")}.tpl",
     {
       name      = each.key,
       critical  = lookup(each.value, "critical", "1"),

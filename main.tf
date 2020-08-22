@@ -10,3 +10,18 @@ provider "datadog" {
   app_key = var.app_key
   api_url = var.api_url
 }
+
+module "monitors" {
+  source = "./monitors/"
+
+  monitor_processes   = var.monitor_processes
+  monitor_metrics     = var.monitor_metrics
+  monitor_custom      = var.monitor_custom
+  monitor_forecast    = var.monitor_forecast
+  monitor_integration = var.monitor_integration
+  monitor_network     = var.monitor_network
+}
+
+module "dashboards" {
+  source = "./dashboards/"
+}

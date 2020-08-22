@@ -9,7 +9,7 @@ module "monitor" {
 
   monitor_custom = {
     "NTP clock drift" = {
-      query_tpl = "ntp",
+      query    = "\"ntp.in_sync\".over(\"process:ntp\").last(2).count_by_status()"
       msg_tpl   = "default",
       critical  = "2",
       warning   = "1"

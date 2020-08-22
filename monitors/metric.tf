@@ -4,22 +4,24 @@ resource "datadog_monitor" "metric_alert" {
   name = format("Metric %s", each.key)
   type = "metric alert"
 
-  query = templatefile(
-    fileexists("${path.root}/${var.path_templates}/query/metrics_${lookup(each.value, "query_tpl", "default")}.tpl")
-    ? "${path.root}/${var.path_templates}/query/metrics_${lookup(each.value, "query_tpl", "default")}.tpl"
-    : "${path.module}/templates/query/metrics_${lookup(each.value, "query_tpl", "default")}.tpl",
-    {
-      name      = each.key,
-      critical  = lookup(each.value, "critical", "1"),
-      recipient = var.notification_recipient,
-      from      = lookup(each.value, "query_from", "*")
-    }
+  query = coalesce(
+    lookup(each.value, "query", ""), templatefile(
+      fileexists("${path.root}/${var.path_templates}/query/metrics_${lookup(each.value, "query_tpl", "default")}.tpl")
+      ? "${path.root}/${var.path_templates}/query/metrics_${lookup(each.value, "query_tpl", "default")}.tpl"
+      : "${path.module}/../templates/query/metrics_${lookup(each.value, "query_tpl", "default")}.tpl",
+      {
+        name      = each.key,
+        critical  = lookup(each.value, "critical", "1"),
+        recipient = var.notification_recipient,
+        from      = lookup(each.value, "query_from", "*")
+      }
+    )
   )
 
   message = templatefile(
     fileexists("${path.root}/${var.path_templates}/message/metrics_${lookup(each.value, "msg_tpl", "default")}.tpl")
     ? "${path.root}/${var.path_templates}/message/metrics_${lookup(each.value, "msg_tpl", "default")}.tpl"
-    : "${path.module}/templates/message/metrics_${lookup(each.value, "msg_tpl", "default")}.tpl",
+    : "${path.module}/../templates/message/metrics_${lookup(each.value, "msg_tpl", "default")}.tpl",
     {
       name      = each.key,
       critical  = lookup(each.value, "critical", "1"),
