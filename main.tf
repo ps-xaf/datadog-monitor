@@ -14,6 +14,8 @@ provider "datadog" {
 module "monitors" {
   source = "./monitors/"
 
+  enable_default_metrics = var.enable_default_metrics
+
   monitor_processes   = var.monitor_processes
   monitor_metrics     = var.monitor_metrics
   monitor_custom      = var.monitor_custom

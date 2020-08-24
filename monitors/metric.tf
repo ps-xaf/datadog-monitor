@@ -1,5 +1,8 @@
 resource "datadog_monitor" "metric_alert" {
-  for_each = merge(var.monitor_metrics)
+  for_each = merge(
+    var.monitor_metrics,
+    var.enable_default_metrics == true ? var.monitor_metrics_default : {}
+  )
 
   name = format("Metric %s", each.key)
   type = "metric alert"
